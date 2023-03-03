@@ -6,7 +6,7 @@ export default Header = () => {
     return (
         <View style={styles.header}>
             <Text style={styles.title}>
-                Dice roller
+                Mini Yahtzee
             </Text>
         </View>
     )
