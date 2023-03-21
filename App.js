@@ -1,9 +1,7 @@
 import React from 'react';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import Home from './components/Home';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import styles from './style/style';
 import Gameboard from './components/Gameboard';
 import Scoreboard from './components/Scoreboard';
 import { NavigationContainer } from '@react-navigation/native';
@@ -20,19 +18,19 @@ export default function App() {
           options={{
             tabBarShowLabel: false,
             tabBarIcon: ({ focused, color, size }) => (
-              <MaterialCommunityIcons name="home" color={focused ? "orange" : "gray"} size={40}/>),
+              <MaterialCommunityIcons name="home" color={focused ? "orange" : "gray"} size={30}/>),
           }} />
         <Tab.Screen name="Gameboard" component={Gameboard}
           options={{
             tabBarShowLabel: false,
             tabBarIcon: ({ focused, color, size }) => (
-              <MaterialCommunityIcons name="dice-multiple" color={focused ? "orange" : "gray"} size={40}/>),
+              <MaterialCommunityIcons name="dice-multiple" color={focused ? "orange" : "gray"} size={30}/>),
           }} />
         <Tab.Screen name="Scoreboard" component={Scoreboard}
           options={{
             tabBarShowLabel: false,
             tabBarIcon: ({ focused, color, size }) => (
-              <MaterialCommunityIcons name="format-list-bulleted-square" color={focused ? "orange" : "gray"} size={40}/>),
+              <MaterialCommunityIcons name="format-list-bulleted-square" color={focused ? "orange" : "gray"} size={30}/>),
           }} />
       </Tab.Navigator>
     </NavigationContainer>

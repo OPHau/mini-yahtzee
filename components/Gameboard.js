@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, Pressable } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import styles from '../style/style';
+import Footer from '../components/Footer';
 import * as Constants from '../constants/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -21,11 +22,11 @@ export default Gameboard = ({route, navigation}) => {
 
     function getDieColor(i) {
         if(nbrOfThrowsLeft <= 0) return "orange";
-        else return selectedDice[i] ? "black" : "steelblue";
+        else return selectedDice[i] ? "black" : "darkturquoise";
     }
 
     function getCatColor(i) {
-        return selectedCats[i] ? "orange" : "steelblue";
+        return selectedCats[i] ? "orange" : "darkturquoise";
     }
 
     const selectDie = (i) => {
@@ -183,7 +184,7 @@ export default Gameboard = ({route, navigation}) => {
     for (let i = 0; i < Constants.MAX_SPOT; i++) {
         category.push(
             <View key={"catscorerow" + i}>
-                <Text>{catPoints[i]}</Text>
+                <Text style={styles.boldtext}>{catPoints[i]}</Text>
                 <Pressable
                     key={"catrow" + i}
                     onPress={() => selectCat(i)}>
@@ -214,9 +215,10 @@ export default Gameboard = ({route, navigation}) => {
                             Throw dice
                         </Text>}
             </Pressable>
-            <Text>Total: {score}</Text>
+            <Text style={styles.boldtext}>Total: {score}</Text>
             <Text>{bonusStatus}</Text>
             <View style={styles.flex}>{category}</View>
+            <Footer />
         </View>
     );
 }

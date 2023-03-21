@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    alignItems: 'center',
   },
   header: {
     marginTop: 30,
@@ -24,6 +25,12 @@ export default StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
+  boldtext: {
+    marginTop: 5,
+    fontWeight: 'bold',
+    fontSize: 15,
+    textAlign: 'center',
+  },
   author: {
     color: '#fff',
     fontWeight: 'bold',
@@ -33,6 +40,7 @@ export default StyleSheet.create({
     margin: 10,
   },
   gameboard: {
+    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
@@ -40,9 +48,8 @@ export default StyleSheet.create({
   gameinfo: {
     backgroundColor: '#fff',
     textAlign: 'center',
-    justifyContent: 'center',
-    fontSize: 20,
-    marginTop: 10
+    fontSize: 15,
+    margin: 5
   },
   row: {
     marginTop: 20,
@@ -51,11 +58,17 @@ export default StyleSheet.create({
   flex: {
     flexDirection: "row"
   },
+  textinput: {
+    marginTop: 15,
+    marginBottom: 30,
+    flexDirection: 'row',
+    textAlign: 'center'
+  },
   button: {
     margin: 30,
-    flexDirection: "row",
     padding: 10,
-    backgroundColor: "#73CED6",
+    flexDirection: 'row',
+    backgroundColor: "darkturquoise",
     width: 150,
     borderRadius: 15,
     justifyContent: 'center',

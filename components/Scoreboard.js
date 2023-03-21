@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from "react-native";
 import styles from '../style/style';
+import Footer from '../components/Footer';
 import * as Constants from '../constants/index';
 import { DataTable } from 'react-native-paper';
 
@@ -32,11 +33,11 @@ export default Scoreboard = ({navigation}) => {
         return unsubscribe;
     }, [navigation]);
 
-    const top3 = [];
-    for (let i = 0; i < scores.length && i < 3; i++) {
-        top3.push(
+    const top5 = [];
+    for (let i = 0; i < scores.length && i < 5; i++) {
+        top5.push(
             <DataTable.Row key={"top" + i}>
-                <DataTable.Cell numeric style={{ flex: 0.3}}>{i + 1}.</DataTable.Cell>
+                <DataTable.Cell numeric style={{ flex: 0.3}}>#{i + 1} </DataTable.Cell>
                 <DataTable.Cell>{scores[i].name}</DataTable.Cell>
                 <Text style={{ flex: 1.5}}>{scores[i].date}</Text>
                 <DataTable.Cell numeric>{scores[i].score}</DataTable.Cell>
@@ -46,14 +47,15 @@ export default Scoreboard = ({navigation}) => {
 
     const Table = () => (
         <DataTable>
-            {top3}
+            {top5}
         </DataTable>
     );
 
     return (
-        <View style={styles.gameboard}>
-            <Text>Scoreboard</Text>
+        <View style={styles.container}>
+            <Text style={styles.boldtext}>Scoreboard</Text>
             <Table />
+            <Footer />
         </View>
     )
 }
