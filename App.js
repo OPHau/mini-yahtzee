@@ -8,8 +8,6 @@ import Gameboard from './components/Gameboard';
 import Scoreboard from './components/Scoreboard';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ScrollView } from 'react-native';
-import { View } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 

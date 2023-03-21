@@ -3,11 +3,12 @@ import { Text, View, Pressable } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import styles from '../style/style';
 import * as Constants from '../constants/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let board = [];
 let boardValue = [];
 
-export default Gameboard = () => {
+export default Gameboard = ({route, navigation}) => {
     const [nbrOfThrowsLeft, setNbrOfThrowsLeft] = useState(Constants.NBR_OF_THROWS);
     const [gameDone, setGameDone] = useState(false);
     const [status, setStatus] = useState('');
@@ -16,6 +17,7 @@ export default Gameboard = () => {
     const [selectedCats, setSelectedCats] = useState(new Array(Constants.MAX_SPOT).fill(false));
     const [catPoints, setCatPoints] = useState(new Array(Constants.MAX_SPOT).fill(0));
     const [score, setScore] = useState(0);
+    const [scores, setScores] = useState([]);
 
     function getDieColor(i) {
         if(nbrOfThrowsLeft <= 0) return "orange";
@@ -27,6 +29,7 @@ export default Gameboard = () => {
     }
 
     const selectDie = (i) => {
+        if(nbrOfThrowsLeft === 3) return;
         let dice = [...selectedDice];
         dice[i] = selectedDice[i] ? false : true;
         setSelectedDice(dice);
@@ -61,7 +64,12 @@ export default Gameboard = () => {
     }
 
     const throwDice = () => {
-        if(gameDone || nbrOfThrowsLeft === 0) return;
+        if(gameDone) {
+            if(nbrOfThrowsLeft === 0) return;
+            else if(allCatsSelected()) {
+                resetBoard();
+            }
+        }
         for (let i = 0; i < Constants.NBR_OF_DICE; i++) {
             if(!selectedDice[i]) {
                 let randomNumber = Math.floor(Math.random() * 6 + 1);
@@ -87,6 +95,17 @@ export default Gameboard = () => {
         return catS;
     }
 
+    const resetBoard = () => {
+        setGameDone(false);
+        setStatus('');
+        setBonusStatus('');
+        setSelectedDice(new Array(Constants.NBR_OF_DICE).fill(false));
+        setSelectedCats(new Array(Constants.MAX_SPOT).fill(false));
+        setCatPoints(new Array(Constants.MAX_SPOT).fill(0));
+        setScore(0);
+        setNbrOfThrowsLeft(Constants.NBR_OF_THROWS);
+    }
+
     const checkState = () => {
         if(gameDone) return;
 
@@ -101,7 +120,37 @@ export default Gameboard = () => {
         if (!gameDone && allCatsSelected()) {
             setStatus('Game over');
             setGameDone(true);
+
+            const newKey = scores.length + 1;
+            const newScore = {key: newKey.toString(), name: route.params.name, date: new Date().toLocaleString(), score: score};
+            const newScores = [...scores, newScore];
+            storeScore(newScores);
         }    
+    }
+
+    const storeScore = async(value) => {
+        try {
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem(Constants.STORAGE_KEY, jsonValue);
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    const getScore = async() => {
+        try {
+            return AsyncStorage.getItem(Constants.STORAGE_KEY)
+            .then(req => JSON.parse(req))
+            .then(json => {
+              if(json === null) {
+                json = [];
+              }
+              setScores(json);
+            })
+            .catch(error => console.log(error));
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     useEffect(() => {
@@ -112,6 +161,7 @@ export default Gameboard = () => {
         if(nbrOfThrowsLeft < 0) {
             setNbrOfThrowsLeft(Constants.NBR_OF_THROWS - 1);
         }
+        getScore();
     }, [nbrOfThrowsLeft]);
 
     const row = [];
@@ -132,7 +182,7 @@ export default Gameboard = () => {
     const category = [];
     for (let i = 0; i < Constants.MAX_SPOT; i++) {
         category.push(
-            <View>
+            <View key={"catscorerow" + i}>
                 <Text>{catPoints[i]}</Text>
                 <Pressable
                     key={"catrow" + i}
@@ -148,16 +198,21 @@ export default Gameboard = () => {
         );
     }
 
-    return(
+    return (
         <View style={styles.gameboard}>
             <View style={styles.flex}>{row}</View>
             <Text style={styles.gameinfo}>Throws left: {nbrOfThrowsLeft}</Text>
             <Text style={styles.gameinfo}>{status}</Text>
             <Pressable style={styles.button}
                 onPress={() => throwDice()}>
-                    <Text style={styles.buttonText}>
-                        Throw dice
-                    </Text>
+                    {gameDone === true ?
+                        <Text style={styles.buttonText}>
+                            New game
+                        </Text>
+                    :
+                        <Text style={styles.buttonText}>
+                            Throw dice
+                        </Text>}
             </Pressable>
             <Text>Total: {score}</Text>
             <Text>{bonusStatus}</Text>
