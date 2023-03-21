@@ -5,9 +5,14 @@ import styles from '../style/style';
 import Footer from '../components/Footer';
 import * as Constants from '../constants/index';
 import { DataTable } from 'react-native-paper';
+import { Pressable } from 'react-native';
 
 export default Scoreboard = ({navigation}) => {
     const [scores, setScores] = useState([]);
+
+    const clearScoreboard = async() => {
+        AsyncStorage.clear();
+    }
 
     const getScoreboardData = () => {
         try {
@@ -55,6 +60,9 @@ export default Scoreboard = ({navigation}) => {
         <View style={styles.container}>
             <Text style={styles.boldtext}>Scoreboard</Text>
             <Table />
+            <Pressable style={styles.erasebutton} onPress={() => clearScoreboard()}>
+                <Text style={styles.erasebuttontext}>Clear scoreboard</Text>
+            </Pressable>
             <Footer />
         </View>
     )

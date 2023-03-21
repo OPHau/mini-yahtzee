@@ -74,8 +74,23 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  erasebutton: {
+    margin: 20,
+    padding: 7,
+    flexDirection: 'row',
+    backgroundColor: "hotpink",
+    width: 220,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   buttonText: {
     color:"#2B2B52",
     fontSize: 20
+  },
+  erasebuttontext: {
+    color:"#fff",
+    fontSize: 15,
+    textTransform: 'uppercase'
   }
 });
